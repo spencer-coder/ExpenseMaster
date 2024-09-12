@@ -8,7 +8,7 @@
     "format": "prettier --write \"frontend/**/*.{ts,tsx,css,md,json}\" && prettier --write \"backend/**/*.{ts,tsx,json}\"",
     "client": "npm run dev --prefix frontend",
     "server": "nodemon backend/server.ts",
-    "build": "tsc --build backend",
+    "build": "npx tsc --build",
     "start": "node /backend/dist/server.js"
   },
   "keywords": [],
