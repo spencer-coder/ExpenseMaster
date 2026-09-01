@@ -16,19 +16,22 @@ function Home() {
   const dispatch = useDispatch<AppDispatch>();
 
   const { user } = useSelector((state: RootState) => state.auth);
-  const { expenses, isLoading, isError, message } = useSelector(
-    (state: RootState) => state.expenses,
-  );
+  const { expenses, isLoading } = useSelector((state: RootState) => state.expenses);
 
   useEffect(() => {
     if (!user) {
       n("/login");
+      return;
     }
     dispatch(getExpenses({} as ExpenseDocument));
+  }, [user, n, dispatch]);
+
+  // Clear expense state when leaving the page
+  useEffect(() => {
     return () => {
       dispatch(reset());
     };
-  }, [user, n, isError, dispatch, message]);
+  }, [dispatch]);
 
   if (isLoading) {
     return <Loading />;
