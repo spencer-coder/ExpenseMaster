@@ -12,6 +12,7 @@ import { updateSettings } from "../features/settings/settingsSlice";
 import { getBudget, setBudget } from "../features/budget/budgetSlice";
 import { currentMonth } from "../utils/month";
 import { formatCurrency } from "../utils/currencyFormatter";
+import ThemeSwitcher from "../components/ThemeSwitch";
 
 function UserProfile() {
   const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
@@ -214,6 +215,12 @@ function UserProfile() {
             </button>
           )}
         </form>
+
+        {/* Moved here from the dashboard -- a theme picker is a setting, and it
+            sat oddly at the bottom of the transaction list. */}
+        <div className="mt-6">
+          <ThemeSwitcher />
+        </div>
       </div>
     </div>
   );

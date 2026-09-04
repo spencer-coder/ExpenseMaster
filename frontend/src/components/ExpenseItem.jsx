@@ -16,26 +16,34 @@ function ExpenseItem({ expense }) {
   const isValidDate = !isNaN(dateToUse.getTime());
 
   return (
-    <div className="bg-base-300 p-4 rounded-xl  mb-2 w-[400px] md:w-[300px] lg:w-[200px] flex flex-col">
-      <p className="text-lg font-semibold">{expense.text}</p>
-      <p className="text-base">{formatCurrency(expense.amount)}</p>
-      <p className="text-sm text-gray-400">
-        {isValidDate
-          ? new Intl.DateTimeFormat(navigator.language, {
-              day: "numeric",
-              month: "short",
-            }).format(dateToUse)
-          : "Invalid Date"}
-      </p>
-
-      <div className="mt-1">
-        <span className="badge badge-ghost badge-sm">{categoryLabel(expense.category)}</span>
+    // w-full, not a fixed pixel width: the parent grid owns sizing. The previous
+    // w-[400px] md:w-[300px] lg:w-[200px] made cards *narrower* on wider screens.
+    <div className="relative flex flex-col w-full p-4 group rounded-xl bg-base-200">
+      <div className="flex items-start justify-between gap-2">
+        <p className="font-semibold truncate">{expense.text}</p>
+        <button
+          onClick={handleDelete}
+          aria-label={`Delete ${expense.text}`}
+          // Revealed on hover or keyboard focus, so it stops dominating the card
+          // while staying reachable without a pointer.
+          className="transition-opacity opacity-0 shrink-0 btn btn-ghost btn-xs text-base-content/50 hover:text-error group-hover:opacity-100 focus:opacity-100"
+        >
+          <FaTrashCan size={14} />
+        </button>
       </div>
 
-      <div className="flex justify-start">
-        <button onClick={handleDelete} className="btn btn-error btn-sm mt-2">
-          <FaTrashCan size={16} /> Delete
-        </button>
+      <p className="mt-1 text-xl font-semibold">{formatCurrency(expense.amount)}</p>
+
+      <div className="flex items-center justify-between gap-2 mt-2">
+        <span className="badge badge-ghost badge-sm">{categoryLabel(expense.category)}</span>
+        <span className="text-sm text-base-content/60">
+          {isValidDate
+            ? new Intl.DateTimeFormat(navigator.language, {
+                day: "numeric",
+                month: "short",
+              }).format(dateToUse)
+            : "Invalid Date"}
+        </span>
       </div>
     </div>
   );
