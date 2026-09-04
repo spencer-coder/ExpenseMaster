@@ -1,5 +1,4 @@
-// Keep the `value`s in sync with the category enum in backend/models/expense.js.
-// Mongoose rejects any value not in that enum.
+// Keep these values in sync with the category enum in backend/models/expense.js.
 export const CATEGORIES = [
   { value: "food", label: "Food & Drink" },
   { value: "transport", label: "Transport" },
@@ -11,8 +10,7 @@ export const CATEGORIES = [
   { value: "other", label: "Other" },
 ];
 
-// Expenses created before categories existed have no `category` field. Mongoose
-// defaults apply on write, not on read, so those documents come back undefined.
+// Expenses predating categories read back as undefined: Mongoose defaults apply on write, not read.
 export const DEFAULT_CATEGORY = "other";
 
 export const categoryLabel = (value) =>

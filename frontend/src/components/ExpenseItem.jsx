@@ -16,16 +16,13 @@ function ExpenseItem({ expense }) {
   const isValidDate = !isNaN(dateToUse.getTime());
 
   return (
-    // w-full, not a fixed pixel width: the parent grid owns sizing. The previous
-    // w-[400px] md:w-[300px] lg:w-[200px] made cards *narrower* on wider screens.
     <div className="relative flex flex-col w-full p-4 group rounded-xl bg-base-200">
       <div className="flex items-start justify-between gap-2">
         <p className="font-semibold truncate">{expense.text}</p>
         <button
           onClick={handleDelete}
           aria-label={`Delete ${expense.text}`}
-          // Revealed on hover or keyboard focus, so it stops dominating the card
-          // while staying reachable without a pointer.
+          // Revealed on hover or focus, so it stays reachable without a pointer.
           className="transition-opacity opacity-0 shrink-0 btn btn-ghost btn-xs text-base-content/50 hover:text-error group-hover:opacity-100 focus:opacity-100"
         >
           <FaTrashCan size={14} />

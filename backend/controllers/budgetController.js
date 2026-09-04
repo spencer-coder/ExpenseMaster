@@ -3,8 +3,7 @@ const Budget = require("../models/budget");
 
 const MONTH_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
 
-// Returns the overall budget for a month, or null when none has been set.
-// A missing budget is a normal state, not a 404 - the UI just hides the bar.
+// Returns null when no budget is set: a missing budget is a normal state, not a 404.
 const getBudget = asyncHandler(async (req, res) => {
   const { month } = req.query;
 
@@ -22,7 +21,6 @@ const getBudget = asyncHandler(async (req, res) => {
   res.status(200).json(budget);
 });
 
-// Creates or replaces the overall budget for a month.
 const setBudget = asyncHandler(async (req, res) => {
   const { month, amount } = req.body;
 

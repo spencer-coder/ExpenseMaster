@@ -1,9 +1,6 @@
 import { formatCurrency } from "../utils/currencyFormatter";
 import { currentMonth, expenseMonth } from "../utils/month";
 
-// These are stat tiles, not charts: a label and a figure, no plot and no hover.
-// The hero figure on this page is the budget card's remaining amount, so these
-// stay deliberately smaller than it.
 function StatTiles({ expenses }) {
   const now = new Date();
   const month = currentMonth();
@@ -25,8 +22,7 @@ function StatTiles({ expenses }) {
   const week = sum(expenses.filter((e) => dateOf(e) >= startOfWeek));
   const monthTotal = sum(monthRows);
 
-  // Average over days elapsed so far, not the whole month -- dividing by 30 on
-  // the 2nd would understate the run rate by an order of magnitude.
+  // Averaged over days elapsed, not the whole month, so the run rate isn't understated early on.
   const dailyAverage = monthTotal / now.getDate();
 
   const tiles = [
@@ -41,7 +37,6 @@ function StatTiles({ expenses }) {
       {tiles.map((tile) => (
         <div key={tile.label} className="p-4 rounded-xl bg-base-200">
           <p className="text-sm text-base-content/60">{tile.label}</p>
-          {/* Proportional figures: tabular-nums makes standalone values look loose. */}
           <p className="mt-1 text-xl font-semibold sm:text-2xl">{formatCurrency(tile.value)}</p>
         </div>
       ))}

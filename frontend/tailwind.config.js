@@ -5,16 +5,8 @@ export default {
   plugins: [daisyui],
   daisyui: {
     themes: [
-      // Both themes are deliberately selected sets, not automatic flips of each
-      // other. The primary steps were run through the dataviz validator against
-      // the base-100 surfaces below: both pass the lightness band, the chroma
-      // floor and 3:1 contrast, and sit clear of the status colours (worst
-      // normal-vision pair 27.6, floor 15) so the budget meter's normal /
-      // warning / over states never read as the same colour.
-      //
-      // success / warning / error are the fixed status palette and are NOT
-      // themed. Warning is sub-3:1 on the light surface by design, which is why
-      // every status in the UI ships with an icon and a text label beside it.
+      // Each theme is its own selected set, not a flip of the other.
+      // success / warning / error are the fixed status palette and are never themed.
       {
         lightTheme: {
           primary: "#6D5AE6",

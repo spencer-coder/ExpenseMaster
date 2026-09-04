@@ -44,17 +44,15 @@ export default function WeeklyChart({ expenses }) {
 
   return (
     <div className="flex flex-col p-4 rounded-xl bg-base-200 sm:p-5">
-      <h2 className="font-semibold">Spending — this week</h2>
+      <h2 className="font-semibold">Spending</h2>
       <p className="mb-4 text-sm text-base-content/60">Daily totals, Monday to Sunday</p>
 
       {weekTotal > 0 ? (
-        // A three-row grid rather than absolutely-positioned bars: the value and
-        // day labels sit on their own fixed baselines, so they no longer drift
-        // with bar height the way the previous version's did.
+        // Three-row grid so the labels sit on fixed baselines instead of drifting with bar height.
         <div className="grid grid-cols-7 gap-1" style={{ gridTemplateRows: "auto 1fr auto" }}>
           {dailyExpenses.map((value, index) => (
             <div key={`v-${index}`} className="text-xs text-center text-base-content/60">
-              {/* Only non-zero days get a label -- seven zeros is noise, not data. */}
+              {/* Only non-zero days get a label; seven zeros is noise. */}
               {value > 0 ? Math.round(value).toLocaleString() : ""}
             </div>
           ))}
@@ -65,7 +63,6 @@ export default function WeeklyChart({ expenses }) {
               className="flex items-end justify-center h-32"
               title={`${daysOfWeek[index]}: ${formatCurrency(value)}`}
             >
-              {/* Thin mark capped at 24px, 4px rounded top, square on the baseline. */}
               <div
                 className={`w-full max-w-[24px] rounded-t ${value > 0 ? "bg-primary" : "bg-primary/15"}`}
                 style={{
@@ -92,7 +89,6 @@ export default function WeeklyChart({ expenses }) {
         </div>
       )}
 
-      {/* Hairline baseline, one step off the surface, solid and recessive. */}
       <div className="h-px mt-3 bg-base-300" />
 
       <div className="mt-3">

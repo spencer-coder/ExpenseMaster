@@ -33,15 +33,14 @@ function Home() {
     dispatch(getBudget(currentMonth()));
   }, [user, n, dispatch]);
 
-  // Clear expense state when leaving the page
+  // Clear expense state when leaving the page.
   useEffect(() => {
     return () => {
       dispatch(reset());
     };
   }, [dispatch]);
 
-  // Filtering narrows only the visible list. The cards above stay on the full
-  // set, so a filter never silently rewrites your balance or the charts.
+  // Filtering narrows only the visible list; the cards above stay on the full set.
   const visibleExpenses = useMemo(() => {
     const query = search.trim().toLowerCase();
     return [...expenses]
@@ -58,8 +57,7 @@ function Home() {
       });
   }, [expenses, categoryFilter, search]);
 
-  // Only block the page on the very first load. Showing the spinner on every
-  // refetch would flash the whole layout away and jump the scroll position.
+  // Block only the first load; a spinner on every refetch would flash the layout away.
   if (isLoading && expenses.length === 0) {
     return <Loading />;
   }
@@ -97,7 +95,6 @@ function Home() {
             </span>
           </div>
 
-          {/* One filter row, directly above the only thing it scopes. */}
           <div className="flex flex-col gap-2 mb-4 sm:flex-row">
             <input
               type="search"

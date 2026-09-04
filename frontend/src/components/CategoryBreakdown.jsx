@@ -4,12 +4,7 @@ import { currentMonth, expenseMonth } from "../utils/month";
 
 const TOP_N = 6;
 
-// Ranked horizontal bars for this month's spend per category.
-//
-// Single hue on purpose. These categories have no natural order, so shading them
-// by size would double-encode bar length as colour and burn the only free
-// channel on information the bar already shows. Identity is carried by the row
-// label, which also means no 8-hue categorical palette is needed here at all.
+// Single hue on purpose: these categories have no natural order, so the row labels carry identity.
 function CategoryBreakdown({ expenses }) {
   const month = currentMonth();
   const monthRows = expenses.filter((expense) => expenseMonth(expense) === month);
@@ -26,8 +21,7 @@ function CategoryBreakdown({ expenses }) {
 
   const total = ranked.reduce((sum, row) => sum + row.amount, 0);
 
-  // Past the top few, fold the tail into a single "Other" row rather than
-  // rendering an unreadable stack of near-zero bars.
+  // Fold the tail into one "Other" row rather than a stack of near-zero bars.
   const head = ranked.slice(0, TOP_N);
   const tail = ranked.slice(TOP_N);
   const rows =
@@ -39,8 +33,7 @@ function CategoryBreakdown({ expenses }) {
 
   return (
     <div className="p-4 rounded-xl bg-base-200 sm:p-5">
-      <h2 className="font-semibold">Where it went</h2>
-      <p className="mb-4 text-sm text-base-content/60">This month, by category</p>
+      <h2 className="mb-4 font-semibold">Where it went</h2>
 
       {rows.length === 0 ? (
         <p className="py-6 text-sm text-center text-base-content/60">
@@ -55,12 +48,10 @@ function CategoryBreakdown({ expenses }) {
               <li key={row.category} title={`${label}: ${formatCurrency(row.amount)} (${share}%)`}>
                 <div className="flex items-baseline justify-between gap-3 mb-1 text-sm">
                   <span className="truncate">{label}</span>
-                  {/* Text never wears the data colour; the bar below carries it. */}
                   <span className="shrink-0 text-base-content/60">
                     {formatCurrency(row.amount)} · {share}%
                   </span>
                 </div>
-                {/* Thin mark, 4px rounded data-end, grown from a single baseline. */}
                 <div className="h-2 rounded-sm bg-primary/15">
                   <div
                     className="h-2 rounded-sm bg-primary"

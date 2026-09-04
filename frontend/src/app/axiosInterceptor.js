@@ -1,8 +1,7 @@
 import axios from "axios";
 import authService from "../features/auth/authService";
 
-// Endpoints where a 401 is a normal failed attempt (bad credentials), not an
-// expired session. The Login/Register pages report those through their own state.
+// A 401 here is a bad password, not an expired session; the Login page reports it itself.
 const AUTH_ENDPOINTS = ["api/users/", "api/users/login"];
 
 const isAuthRequest = (url) => {
@@ -11,9 +10,7 @@ const isAuthRequest = (url) => {
   return AUTH_ENDPOINTS.includes(path);
 };
 
-// A 401 on any other request means the stored token is missing, expired, or
-// invalid. Clear it and send the user to /login instead of letting the caller
-// retry with the same dead credentials.
+// Any other 401 means the stored token is dead: clear it and bounce to /login.
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -22,7 +19,7 @@ axios.interceptors.response.use(
 
     if (status === 401 && !isAuthRequest(url) && window.location.pathname !== "/login") {
       authService.logout();
-      // Full reload so stale Redux state is dropped along with the token.
+      // Full reload so stale Redux state goes with the token.
       window.location.href = "/login";
     }
 

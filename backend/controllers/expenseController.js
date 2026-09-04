@@ -14,8 +14,7 @@ const createExpense = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Missing text");
   }
-  // Checked this way rather than `!req.body.amount` so that an amount of
-  // exactly 0 is accepted instead of being reported as missing.
+  // Not `!req.body.amount`, so an amount of exactly 0 is accepted rather than reported missing.
   if (req.body.amount === undefined || req.body.amount === null) {
     res.status(400);
     throw new Error("Missing amount");

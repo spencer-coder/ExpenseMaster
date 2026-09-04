@@ -216,8 +216,6 @@ function UserProfile() {
           )}
         </form>
 
-        {/* Moved here from the dashboard -- a theme picker is a setting, and it
-            sat oddly at the bottom of the transaction list. */}
         <div className="mt-6">
           <ThemeSwitcher />
         </div>

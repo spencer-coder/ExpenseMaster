@@ -110,6 +110,20 @@ function Navbar() {
                 <Link to="/" className="btn btn-ghost hover:bg-base-300">
                   Home
                 </Link>
+                <Link to="/user" className="flex items-center space-x-2">
+                  {user.profilePicture ? (
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={`/${user.profilePicture}?${user.token}`}
+                      alt="Profile"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center">
+                      {user.name ? user.name[0] : ""}
+                    </div>
+                  )}
+                  <span>{user.name}</span>
+                </Link>
                 <button className="btn btn-error btn-outline" onClick={handleLogout}>
                   <FaArrowRightFromBracket /> Logout
                 </button>
@@ -123,22 +137,6 @@ function Navbar() {
                   Register
                 </Link>
               </>
-            )}
-            {user && (
-              <Link to="/user" className="flex items-center space-x-2">
-                {user.profilePicture ? (
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={`/${user.profilePicture}?${user.token}`}
-                    alt="Profile"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center">
-                    {user.name ? user.name[0] : ""}
-                  </div>
-                )}
-                <span>{user.name}</span>
-              </Link>
             )}
           </div>
           <button className="lg:hidden text-2xl" onClick={() => setIsSidebarOpen(true)}>

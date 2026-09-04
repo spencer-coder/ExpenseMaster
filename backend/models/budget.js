@@ -7,7 +7,7 @@ const budgetSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
-    // Calendar month this budget applies to, as "YYYY-MM".
+    // Calendar month, as "YYYY-MM".
     month: {
       type: String,
       required: [true, "Budget month is required"],
@@ -18,8 +18,7 @@ const budgetSchema = new mongoose.Schema(
       required: [true, "Budget amount is required"],
       min: [0, "Budget cannot be negative"],
     },
-    // null means an overall budget for the month. Reserved so per-category
-    // budgets can be added later without a migration.
+    // null = the overall budget; reserved so per-category budgets need no migration later.
     category: {
       type: String,
       default: null,
@@ -28,7 +27,6 @@ const budgetSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// One budget per user, per month, per category (null category = the overall one).
 budgetSchema.index({ user: 1, month: 1, category: 1 }, { unique: true });
 
 const Budget = mongoose.model("Budget", budgetSchema);
