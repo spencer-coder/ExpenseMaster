@@ -8,7 +8,6 @@ export const CATEGORIES = [
   { value: "health", label: "Health" },
   { value: "entertainment", label: "Entertainment" },
   { value: "shopping", label: "Shopping" },
-  { value: "salary", label: "Salary" },
   { value: "other", label: "Other" },
 ];
 

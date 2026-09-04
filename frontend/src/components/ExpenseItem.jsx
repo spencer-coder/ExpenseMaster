@@ -18,10 +18,7 @@ function ExpenseItem({ expense }) {
   return (
     <div className="bg-base-300 p-4 rounded-xl  mb-2 w-[400px] md:w-[300px] lg:w-[200px] flex flex-col">
       <p className="text-lg font-semibold">{expense.text}</p>
-      <p className={`${expense.type === "expense" ? "text-base" : "text-success"}`}>
-        {expense.type === "expense" ? "-" : "+"}
-        {formatCurrency(expense.amount)}
-      </p>
+      <p className="text-base">{formatCurrency(expense.amount)}</p>
       <p className="text-sm text-gray-400">
         {isValidDate
           ? new Intl.DateTimeFormat(navigator.language, {

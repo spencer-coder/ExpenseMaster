@@ -17,7 +17,7 @@ export default function WeeklyChart({ expenses }) {
 
   const weeklyExpenses = sortedExpenses.filter((expense) => {
     const expenseDate = new Date(expense.customDate || expense.createdAt);
-    return expenseDate >= startOfWeek && expenseDate <= endOfWeek && expense.type === "expense";
+    return expenseDate >= startOfWeek && expenseDate <= endOfWeek;
   });
 
   const dailyExpenses = Array.from({ length: 7 }, (_, i) => {

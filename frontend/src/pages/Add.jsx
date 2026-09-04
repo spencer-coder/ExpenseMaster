@@ -8,7 +8,6 @@ import { CATEGORIES, DEFAULT_CATEGORY } from "../constants/categories";
 function Add() {
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(undefined);
-  const [type, setType] = useState("expense");
   const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [date, setDate] = useState(null);
 
@@ -31,8 +30,8 @@ function Add() {
       }
     }
 
-    await dispatch(createExpense({ text, amount, type, category, customDate: isoDate }));
-    toast.success(`Added ${type}: ` + text);
+    await dispatch(createExpense({ text, amount, category, customDate: isoDate }));
+    toast.success("Added expense: " + text);
     setText("");
     setAmount(undefined);
     setCategory(DEFAULT_CATEGORY);
@@ -89,22 +88,6 @@ function Add() {
             />
           </div>
           <div>
-            <label htmlFor="type" className="block text-sm font-medium mb-1">
-              Type
-            </label>
-            <select
-              name="type"
-              id="type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="select select-bordered w-full max-w-xs"
-              required
-            >
-              <option value="expense">Expense</option>
-              <option value="income">Income</option>
-            </select>
-          </div>
-          <div>
             <label htmlFor="category" className="block text-sm font-medium mb-1">
               Category
             </label>
@@ -126,7 +109,7 @@ function Add() {
           <button
             type="submit"
             className="btn w-full btn-primary"
-            disabled={!text || amount === undefined || !type}
+            disabled={!text || amount === undefined}
           >
             Add Expense
           </button>

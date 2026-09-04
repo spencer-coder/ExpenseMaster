@@ -5,8 +5,7 @@ import { getExpenses, reset } from "../features/expenses/expenseSlice";
 import ExpenseItem from "../components/ExpenseItem";
 import Loading from "../components/Loading";
 import ThemeSwitcher from "../components/ThemeSwitch";
-import { FaPlus, FaWallet } from "react-icons/fa6";
-import { formatCurrency } from "../utils/currencyFormatter";
+import { FaPlus } from "react-icons/fa6";
 import WeeklyChart from "../components/WeeklyChart";
 import BudgetProgress from "../components/BudgetProgress";
 import { CATEGORIES, DEFAULT_CATEGORY } from "../constants/categories";
@@ -62,36 +61,9 @@ function Home() {
     return <Loading />;
   }
 
-  // Calculate total income for all time
-  const totalIncome = expenses
-    .filter((expense) => expense.type === "income")
-    .reduce((total, expense) => total + (expense.amount || 0), 0);
-
-  // Calculate total expenses for all time
-  const totalExpenses = expenses
-    .filter((expense) => expense.type === "expense")
-    .reduce((total, expense) => total + (expense.amount || 0), 0);
-
-  // Calculate actual balance
-  const actualBalance = totalIncome - totalExpenses;
-
   return (
     <div className="flex flex-col items-center justify-center gap-6 mt-24">
       <h3 className="text-3xl font-bold">Hello, {user && user.name} 👋</h3>
-
-      <div
-        className={`flex items-center justify-between gap-8 w-96 h-24 p-4 rounded-xl shadow-lg ${
-          actualBalance >= 0 ? "bg-primary" : "bg-error"
-        } text-primary-content`}
-      >
-        <div>
-          <p>My Balance</p>
-          <p className="text-2xl font-semibold">{formatCurrency(actualBalance)}</p>
-        </div>
-        <div>
-          <FaWallet className="text-3xl" />
-        </div>
-      </div>
 
       <BudgetProgress expenses={expenses} budget={budget} />
 

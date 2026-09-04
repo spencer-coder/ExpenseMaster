@@ -14,12 +14,6 @@ const expenseSchema = new mongoose.Schema(
     customDate: {
       type: String,
     },
-    type: {
-      type: String,
-      required: [true, "Expense type is required"],
-      enum: ["income", "expense"],
-      default: "expense",
-    },
     // Keep this list in sync with frontend/src/constants/categories.js
     category: {
       type: String,
@@ -31,7 +25,6 @@ const expenseSchema = new mongoose.Schema(
         "health",
         "entertainment",
         "shopping",
-        "salary",
         "other",
       ],
       default: "other",

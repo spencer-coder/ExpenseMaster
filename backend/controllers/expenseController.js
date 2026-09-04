@@ -31,15 +31,9 @@ const createExpense = asyncHandler(async (req, res) => {
     throw new Error("Amount cannot be negative");
   }
 
-  if (req.body.type !== "income" && req.body.type !== "expense") {
-    res.status(400);
-    throw new Error("Invalid type");
-  }
-
   const expense = await Expense.create({
     text: req.body.text,
     amount: req.body.amount,
-    type: req.body.type,
     category: req.body.category,
     user: req.user.id,
     customDate: req.body.customDate,
@@ -68,11 +62,6 @@ const updateExpense = asyncHandler(async (req, res) => {
   if (expense.user.toString() !== user.id) {
     res.status(401);
     throw new Error("Not authorized");
-  }
-
-  if (req.body.type !== "income" && req.body.type !== "expense") {
-    res.status(400);
-    throw new Error("Invalid type");
   }
 
   const updatedExpense = await Expense.findByIdAndUpdate(req.params.id, req.body, { new: true });
