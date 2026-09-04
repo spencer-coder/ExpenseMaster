@@ -9,15 +9,50 @@ import {
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { updateSettings } from "../features/settings/settingsSlice";
+import { getBudget, setBudget } from "../features/budget/budgetSlice";
+import { currentMonth } from "../utils/month";
+import { formatCurrency } from "../utils/currencyFormatter";
 
 function UserProfile() {
   const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { settings } = useSelector((state) => state.settings);
+  const { budget } = useSelector((state) => state.budget);
   const [name, setName] = useState(user?.name || "");
   const [selectedCurrency, setSelectedCurrency] = useState(settings.currency || "USD");
+  const [budgetInput, setBudgetInput] = useState("");
 
   const n = useNavigate();
+
+  const month = currentMonth();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getBudget(month));
+    }
+  }, [user, month, dispatch]);
+
+  // Seed the input from whatever is stored, once it arrives.
+  useEffect(() => {
+    if (budget?.amount !== undefined && budget?.amount !== null) {
+      setBudgetInput(String(budget.amount));
+    }
+  }, [budget]);
+
+  const onBudgetSubmit = async (e) => {
+    e.preventDefault();
+    const amount = Number(budgetInput);
+    if (budgetInput === "" || Number.isNaN(amount) || amount < 0) {
+      toast.error("Enter a budget of 0 or more");
+      return;
+    }
+    const result = await dispatch(setBudget({ month, amount }));
+    if (setBudget.fulfilled.match(result)) {
+      toast.success("Budget saved");
+    } else {
+      toast.error(`Error: ${result.payload}`);
+    }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -134,6 +169,30 @@ function UserProfile() {
             </select>
           </div>
         </div>
+        <form onSubmit={onBudgetSubmit} className="mb-4">
+          <h3 className="text-xl font-semibold mb-4">Monthly budget</h3>
+          <div className="mb-2 w-full">
+            <label className="block text-sm font-medium mb-1">Budget for {month}</label>
+            <input
+              type="number"
+              min="0"
+              step="any"
+              value={budgetInput}
+              onChange={(e) => setBudgetInput(e.target.value)}
+              placeholder={`Amount in ${settings.currency}`}
+              className="input input-bordered w-full"
+            />
+            {budget?.amount !== undefined && budget?.amount !== null && (
+              <p className="text-sm text-gray-400 mt-1">
+                Currently {formatCurrency(budget.amount)}
+              </p>
+            )}
+          </div>
+          <button type="submit" className="btn btn-primary w-full">
+            Save Budget
+          </button>
+        </form>
+
         <form onSubmit={onSubmit}>
           <h3 className="text-xl font-semibold mb-4">Update Your Profile</h3>
           <div className="mb-4 w-full">

@@ -8,7 +8,10 @@ import ThemeSwitcher from "../components/ThemeSwitch";
 import { FaPlus, FaWallet } from "react-icons/fa6";
 import { formatCurrency } from "../utils/currencyFormatter";
 import WeeklyChart from "../components/WeeklyChart";
+import BudgetProgress from "../components/BudgetProgress";
 import { CATEGORIES, DEFAULT_CATEGORY } from "../constants/categories";
+import { getBudget } from "../features/budget/budgetSlice";
+import { currentMonth } from "../utils/month";
 
 function Home() {
   const n = useNavigate();
@@ -16,6 +19,7 @@ function Home() {
 
   const { user } = useSelector((state) => state.auth);
   const { expenses, isLoading } = useSelector((state) => state.expenses);
+  const { budget } = useSelector((state) => state.budget);
 
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -26,6 +30,7 @@ function Home() {
       return;
     }
     dispatch(getExpenses());
+    dispatch(getBudget(currentMonth()));
   }, [user, n, dispatch]);
 
   // Clear expense state when leaving the page
@@ -87,6 +92,8 @@ function Home() {
           <FaWallet className="text-3xl" />
         </div>
       </div>
+
+      <BudgetProgress expenses={expenses} budget={budget} />
 
       <WeeklyChart expenses={expenses} />
 

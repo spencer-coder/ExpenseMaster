@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const { errorHandler } = require("./middleware/errorMiddleware");
 const { ExpenseRouter } = require("./routes/expenseRoutes");
 const { UserRouter } = require("./routes/userRoutes");
+const { BudgetRouter } = require("./routes/budgetRoutes");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -24,6 +25,7 @@ app.use("/uploads", express.static(path.join("uploads")));
 // Routes
 app.use("/api/expenses", ExpenseRouter);
 app.use("/api/users", UserRouter);
+app.use("/api/budgets", BudgetRouter);
 
 // Error handling middleware
 app.use(errorHandler);
