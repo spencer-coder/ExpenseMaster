@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import NotFound from "./pages/404";
 import Login from "./pages/Login";
@@ -71,7 +72,8 @@ function App() {
         }}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/add" element={<Add />} />

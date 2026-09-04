@@ -16,18 +16,13 @@ export default defineConfig({
       manifest: {
         name: "Expense Tracker",
         short_name: "Expense Tracker",
-        theme_color: "#0061FF",
-        //TODO: Add icons
+        theme_color: "#6D5AE6",
         icons: [
           {
             src: "/logo.svg",
-            sizes: "512x512",
+            sizes: "any",
             type: "image/svg+xml",
-          },
-          {
-            src: "/logo.png",
-            sizes: "512x512",
-            type: "image/png",
+            purpose: "any",
           },
         ],
       },

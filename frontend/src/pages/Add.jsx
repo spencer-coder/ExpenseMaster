@@ -35,7 +35,7 @@ function Add() {
     setText("");
     setAmount(undefined);
     setCategory(DEFAULT_CATEGORY);
-    n("/");
+    n("/dashboard");
     setDate(null);
   };
 

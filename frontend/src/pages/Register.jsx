@@ -26,7 +26,7 @@ function Register() {
     }
 
     if (isSuccess || user) {
-      n("/");
+      n("/dashboard");
     }
 
     dispatch(reset());

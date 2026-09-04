@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
-import logo from "../assets/logo512.png";
+import logo from "/logo.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 
@@ -41,7 +41,7 @@ function Navbar() {
             {user ? (
               <>
                 <Link
-                  to="/"
+                  to="/dashboard"
                   className="block p-2 text-lg hover:bg-base-300 rounded"
                   onClick={closeSidebar}
                 >
@@ -100,14 +100,14 @@ function Navbar() {
       {/* Navbar */}
       <nav className="bg-base-200 fixed top-0 left-0 w-full z-10 shadow-md">
         <div className="container mx-auto flex items-center justify-between p-4">
-          <Link to="/" className="flex items-center space-x-4">
+          <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-4">
             <img src={logo} alt="logo" className="h-10 w-10" />
             <span className="text-xl font-semibold">ExpenseMaster</span>
           </Link>
           <div className="hidden lg:flex items-center space-x-6">
             {user ? (
               <>
-                <Link to="/" className="btn btn-ghost hover:bg-base-300">
+                <Link to="/dashboard" className="btn btn-ghost hover:bg-base-300">
                   Home
                 </Link>
                 <Link to="/user" className="flex items-center space-x-2">

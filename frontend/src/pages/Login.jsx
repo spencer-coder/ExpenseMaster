@@ -25,7 +25,7 @@ function Login() {
     }
 
     if (isSuccess || user) {
-      n("/");
+      n("/dashboard");
     }
 
     dispatch(reset());

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="ExpenseMaster">
+  <title>ExpenseMaster</title>
+  <rect width="512" height="512" rx="116" fill="#6D5AE6"/>
+  <g transform="rotate(-90 256 256)" fill="none" stroke="#FFFFFF" stroke-width="54">
+    <circle cx="256" cy="256" r="130" opacity="0.3"/>
+    <circle cx="256" cy="256" r="130" stroke-linecap="round" stroke-dasharray="555 817"/>
+  </g>
+</svg>
