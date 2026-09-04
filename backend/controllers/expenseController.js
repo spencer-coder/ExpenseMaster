@@ -40,6 +40,7 @@ const createExpense = asyncHandler(async (req, res) => {
     text: req.body.text,
     amount: req.body.amount,
     type: req.body.type,
+    category: req.body.category,
     user: req.user.id,
     customDate: req.body.customDate,
   });

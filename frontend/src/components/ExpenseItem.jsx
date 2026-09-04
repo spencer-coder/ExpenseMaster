@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { deleteExpense } from "../features/expenses/expenseSlice";
 import { FaTrashCan } from "react-icons/fa6";
 import { formatCurrency } from "../utils/currencyFormatter";
+import { categoryLabel } from "../constants/categories";
 
 function ExpenseItem({ expense }) {
   const dispatch = useDispatch();
@@ -29,6 +30,10 @@ function ExpenseItem({ expense }) {
             }).format(dateToUse)
           : "Invalid Date"}
       </p>
+
+      <div className="mt-1">
+        <span className="badge badge-ghost badge-sm">{categoryLabel(expense.category)}</span>
+      </div>
 
       <div className="flex justify-start">
         <button onClick={handleDelete} className="btn btn-error btn-sm mt-2">

@@ -20,6 +20,22 @@ const expenseSchema = new mongoose.Schema(
       enum: ["income", "expense"],
       default: "expense",
     },
+    // Keep this list in sync with frontend/src/constants/categories.js
+    category: {
+      type: String,
+      enum: [
+        "food",
+        "transport",
+        "housing",
+        "utilities",
+        "health",
+        "entertainment",
+        "shopping",
+        "salary",
+        "other",
+      ],
+      default: "other",
+    },
     amount: {
       type: Number,
       required: [true, "Expense amount is required"],

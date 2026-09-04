@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { createExpense } from "../features/expenses/expenseSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { CATEGORIES, DEFAULT_CATEGORY } from "../constants/categories";
 
 function Add() {
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(undefined);
   const [type, setType] = useState("expense");
+  const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [date, setDate] = useState(null);
 
   const dispatch = useDispatch();
@@ -29,10 +31,11 @@ function Add() {
       }
     }
 
-    await dispatch(createExpense({ text, amount, type, customDate: isoDate }));
+    await dispatch(createExpense({ text, amount, type, category, customDate: isoDate }));
     toast.success(`Added ${type}: ` + text);
     setText("");
     setAmount(undefined);
+    setCategory(DEFAULT_CATEGORY);
     n("/");
     setDate(null);
   };
@@ -99,6 +102,25 @@ function Add() {
             >
               <option value="expense">Expense</option>
               <option value="income">Income</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="category" className="block text-sm font-medium mb-1">
+              Category
+            </label>
+            <select
+              name="category"
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="select select-bordered w-full max-w-xs"
+              required
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label}
+                </option>
+              ))}
             </select>
           </div>
           <button

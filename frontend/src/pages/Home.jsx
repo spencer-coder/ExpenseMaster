@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getExpenses, reset } from "../features/expenses/expenseSlice";
@@ -8,6 +8,7 @@ import ThemeSwitcher from "../components/ThemeSwitch";
 import { FaPlus, FaWallet } from "react-icons/fa6";
 import { formatCurrency } from "../utils/currencyFormatter";
 import WeeklyChart from "../components/WeeklyChart";
+import { CATEGORIES, DEFAULT_CATEGORY } from "../constants/categories";
 
 function Home() {
   const n = useNavigate();
@@ -15,6 +16,9 @@ function Home() {
 
   const { user } = useSelector((state) => state.auth);
   const { expenses, isLoading } = useSelector((state) => state.expenses);
+
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -31,15 +35,27 @@ function Home() {
     };
   }, [dispatch]);
 
+  // Filtering narrows only the visible list. Totals and the weekly chart below
+  // stay on the full set, so a filter never silently rewrites your balance.
+  const visibleExpenses = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return [...expenses]
+      .filter((expense) => {
+        const category = expense.category || DEFAULT_CATEGORY;
+        if (categoryFilter !== "all" && category !== categoryFilter) return false;
+        if (query && !expense.text?.toLowerCase().includes(query)) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.customDate || a.createdAt);
+        const dateB = new Date(b.customDate || b.createdAt);
+        return dateB.getTime() - dateA.getTime();
+      });
+  }, [expenses, categoryFilter, search]);
+
   if (isLoading) {
     return <Loading />;
   }
-
-  const sortedExpenses = [...expenses].sort((a, b) => {
-    const dateA = new Date(a.customDate || a.createdAt);
-    const dateB = new Date(b.customDate || b.createdAt);
-    return dateB.getTime() - dateA.getTime();
-  });
 
   // Calculate total income for all time
   const totalIncome = expenses
@@ -76,14 +92,39 @@ function Home() {
 
       <div>
         <p className="mb-2 ml-2">Recent Transactions</p>
-        {sortedExpenses.length > 0 ? (
+
+        <div className="flex flex-col gap-2 mb-4 sm:flex-row">
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search transactions"
+            className="input input-bordered w-full sm:w-64"
+          />
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="select select-bordered w-full sm:w-52"
+          >
+            <option value="all">All categories</option>
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {visibleExpenses.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {sortedExpenses.map((expense) => (
+            {visibleExpenses.map((expense) => (
               <ExpenseItem key={expense._id} expense={expense} />
             ))}
           </div>
         ) : (
-          <p>No expenses found</p>
+          <p>
+            {expenses.length > 0 ? "No transactions match your filters" : "No expenses found"}
+          </p>
         )}
       </div>
       <Link to="/add">
