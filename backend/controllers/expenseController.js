@@ -41,32 +41,6 @@ const createExpense = asyncHandler(async (req, res) => {
   res.status(200).json(expense);
 });
 
-const updateExpense = asyncHandler(async (req, res) => {
-  const expense = await Expense.findById(req.params.id);
-  if (!expense) {
-    res.status(400);
-    throw new Error("Expense not found");
-  }
-  if (req.body.amount < 0) {
-    res.status(400);
-    throw new Error("Amount cannot be negative");
-  }
-
-  const user = await User.findById(req.user.id);
-  if (!user) {
-    res.status(401);
-    throw new Error("User not found");
-  }
-
-  if (expense.user.toString() !== user.id) {
-    res.status(401);
-    throw new Error("Not authorized");
-  }
-
-  const updatedExpense = await Expense.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.status(200).json(updatedExpense);
-});
-
 const deleteExpense = asyncHandler(async (req, res) => {
   const expense = await Expense.findById(req.params.id);
   if (!expense) {
@@ -90,6 +64,5 @@ const deleteExpense = asyncHandler(async (req, res) => {
 module.exports = {
   getAllExpenses,
   createExpense,
-  updateExpense,
   deleteExpense,
 };

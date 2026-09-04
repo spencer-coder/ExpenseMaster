@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const {
-  getUserData,
   loginUser,
   registerUser,
   removeProfilePicture,
@@ -14,7 +13,6 @@ const router = Router();
 
 router.post("/", registerUser);
 router.post("/login", loginUser);
-router.get("/me", protect, getUserData);
 router.put("/update", protect, updateUser);
 router.post("/upload-profile-picture", protect, upload.single("profilePicture"), uploadProfilePicture);
 

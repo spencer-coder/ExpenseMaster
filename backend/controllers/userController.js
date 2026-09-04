@@ -70,28 +70,6 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-//https://www.youtube.com/watch?v=UXjMo25Nnvc&list=PLillGF-RfqbbQeVSccR9PGKHzPJSWqcsm&index=4&ab_channel=TraversyMedia
-const getUserData = asyncHandler(async (req, res) => {
-  if (!req.user) {
-    res.status(401);
-    throw new Error("Not authorized");
-  }
-
-  const user = await User.findById(req.user.id);
-  if (!user) {
-    res.status(404);
-    throw new Error("User not found");
-  }
-
-  const { _id, name, email, profilePicture } = user;
-  res.status(200).json({
-    id: _id,
-    name,
-    email,
-    profilePicture,
-  });
-});
-
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
@@ -200,7 +178,6 @@ const removeProfilePicture = asyncHandler(async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
-  getUserData,
   updateUser,
   uploadProfilePicture,
   removeProfilePicture,

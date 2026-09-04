@@ -15,10 +15,6 @@ export const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
-    reset: (state) => {
-      localStorage.removeItem("settings");
-      state.settings = defaultSettings;
-    },
     updateSettings: (state, action) => {
       state.settings = action.payload;
       localStorage.setItem("settings", JSON.stringify(action.payload));
@@ -26,5 +22,5 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { reset, updateSettings } = settingsSlice.actions;
+export const { updateSettings } = settingsSlice.actions;
 export default settingsSlice.reducer;

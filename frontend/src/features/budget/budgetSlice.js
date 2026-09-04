@@ -41,14 +41,7 @@ export const setBudget = createAsyncThunk("budget/set", async ({ month, amount }
 export const budgetSlice = createSlice({
   name: "budget",
   initialState,
-  reducers: {
-    reset: (state) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = false;
-      state.message = "";
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getBudget.pending, (state) => {
@@ -80,5 +73,4 @@ export const budgetSlice = createSlice({
   },
 });
 
-export const { reset } = budgetSlice.actions;
 export default budgetSlice.reducer;
