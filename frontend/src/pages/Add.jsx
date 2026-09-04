@@ -32,7 +32,7 @@ function Add() {
     await dispatch(createExpense({ text, amount, type, customDate: isoDate }));
     toast.success(`Added ${type}: ` + text);
     setText("");
-    setAmount(0);
+    setAmount(undefined);
     n("/");
     setDate(null);
   };
@@ -65,8 +65,8 @@ function Add() {
               type="number"
               name="amount"
               id="amount"
-              value={amount || ""}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              value={amount ?? ""}
+              onChange={(e) => setAmount(e.target.value === "" ? undefined : Number(e.target.value))}
               placeholder={`Enter amount (${settings.currency})`}
               className="input input-bordered w-full max-w-xs"
               required
@@ -104,7 +104,7 @@ function Add() {
           <button
             type="submit"
             className="btn w-full btn-primary"
-            disabled={!text || !amount || !type}
+            disabled={!text || amount === undefined || !type}
           >
             Add Expense
           </button>

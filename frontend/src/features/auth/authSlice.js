@@ -15,7 +15,6 @@ const initialState = {
 
 export const register = createAsyncThunk("auth/register", async (user, thunkAPI) => {
   try {
-    console.log("Dispatching register action with user:", user);
     return await authService.register(user);
   } catch (error) {
     console.error("Error in register thunk:", error);
@@ -38,7 +37,6 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
-    console.log("Dispatching login action with user:", user);
     return await authService.login(user);
   } catch (error) {
     console.error("Error in login thunk:", error);

@@ -4,9 +4,7 @@ const API_URL = "api/users/";
 
 const register = async (userData) => {
   try {
-    console.log("Making request to register user:", userData);
     const response = await axios.post(API_URL, userData);
-    console.log("Received response:", response);
 
     if (response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
@@ -21,9 +19,7 @@ const register = async (userData) => {
 
 const login = async (userData) => {
   try {
-    console.log("Making request to login user:", userData);
     const response = await axios.post(API_URL + "login", userData);
-    console.log("Received response:", response);
 
     if (response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
@@ -98,7 +94,6 @@ const logout = () => {
 const removeProfilePicture = async () => {
   try {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log("User from localStorage:", user);
 
     if (!user.token) {
       throw new Error("No token found");

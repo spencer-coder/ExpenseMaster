@@ -14,9 +14,16 @@ const createExpense = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Missing text");
   }
-  if (!req.body.amount) {
+  // Checked this way rather than `!req.body.amount` so that an amount of
+  // exactly 0 is accepted instead of being reported as missing.
+  if (req.body.amount === undefined || req.body.amount === null) {
     res.status(400);
     throw new Error("Missing amount");
+  }
+
+  if (typeof req.body.amount !== "number" || Number.isNaN(req.body.amount)) {
+    res.status(400);
+    throw new Error("Amount must be a number");
   }
 
   if (req.body.amount < 0) {
@@ -29,7 +36,7 @@ const createExpense = asyncHandler(async (req, res) => {
     throw new Error("Invalid type");
   }
 
-  const expense = Expense.create({
+  const expense = await Expense.create({
     text: req.body.text,
     amount: req.body.amount,
     type: req.body.type,

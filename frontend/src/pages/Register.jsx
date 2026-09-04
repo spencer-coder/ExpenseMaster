@@ -42,8 +42,6 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Form submitted with data:", formData);
-
     if (password !== password2) {
       toast.error("Passwords do not match");
     } else {
@@ -53,7 +51,6 @@ function Register() {
         password,
       };
 
-      console.log("Dispatching register action with userData:", userData);
       dispatch(register(userData));
     }
   };

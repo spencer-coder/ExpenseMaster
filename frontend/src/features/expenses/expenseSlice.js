@@ -4,7 +4,6 @@ import expenseService from "./expenseService";
 
 const initialState = {
   expenses: [],
-  expense: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -40,21 +39,6 @@ export const getExpenses = createAsyncThunk("expense/getAll", async (_, thunkAPI
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
-export const getExpenseDetails = createAsyncThunk("expense/getDetails", async (id, thunkAPI) => {
-  try {
-    const state = thunkAPI.getState();
-    const token = state.auth.user?.token;
-    if (!token) {
-      throw new Error("No authentication token available");
-    }
-    return await expenseService.getExpenseDetails(id, token);
-  } catch (error) {
-    const message =
-      error.response?.data?.message || error.message || "Failed to fetch expense details";
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -124,19 +108,6 @@ export const expenseSlice = createSlice({
         state.expenses = state.expenses.filter((expense) => expense._id !== action.payload.id);
       })
       .addCase(deleteExpense.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-      .addCase(getExpenseDetails.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getExpenseDetails.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.expense = action.payload;
-      })
-      .addCase(getExpenseDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
