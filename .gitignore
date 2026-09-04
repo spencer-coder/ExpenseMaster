@@ -10,6 +10,9 @@ frontend/dev-dist/
 .env
 .env.local
 
+# User-uploaded files (runtime data, not source)
+uploads/
+
 # Logs
 *.log
 npm-debug.log*
